@@ -9,17 +9,18 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class LoginPageComponent implements OnInit {
 
   private form: FormGroup;
+  public busy = false;
   constructor(private data:DataService, private fb: FormBuilder) {
 
     this.form = this.fb.group({
       username: ['',Validators.compose([
-        Validators.minLength(2),
-        Validators.maxLength(22),
+        Validators.minLength(14),
+        Validators.maxLength(14),
         Validators.required
       ])],
 
       password:['',Validators.compose([
-        Validators.minLength(3),
+        Validators.minLength(6),
         Validators.maxLength(12),
         Validators.required
       ])]
@@ -27,6 +28,35 @@ export class LoginPageComponent implements OnInit {
    }
 
   ngOnInit() {
+    const token = sessionStorage.getItem('petshop.token');
+    if(token){
+      this.busy = true;
+      this.data.refreshToken().subscribe(
+        (data: any)=>{
+          sessionStorage.setItem("petshop.token",data.token);
+          this.busy = false;
+        },
+        (err)=>{
+          sessionStorage.removeItem('petshop.token');
+          console.log(err);
+          this.busy = false;
+        }
+      )
+    }
+    
+  }
+  submit(){
+    this.busy = true;
+    this.data.authenticate(this.form.value).subscribe(
+      (data: any)=>{
+        sessionStorage.setItem("petshop.token",data.token);
+        this.busy = false;
+      },
+      (err)=>{
+        console.log(err);
+        this.busy = false;
+      }
+    )
   }
 
 }
