@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { DataService } from 'src/app/services/data.service';
+import { ToastrService } from 'ngx-toastr';
+import { CustomValidator } from 'src/app/validators/custom.validators';
 
 @Component({
   selector: 'app-signup-page',
@@ -6,9 +11,55 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupPageComponent implements OnInit {
 
-  constructor() { }
+  public form: FormGroup;
+  public busy = false;
+  constructor(
+    private router: Router,
+    private service: DataService,
+    private fb: FormBuilder,
+    private toast: ToastrService
+  ) { 
+    this.form = this.fb.group({
+      name:['',Validators.compose([
+        Validators.minLength(5),
+        Validators.maxLength(30),
+        Validators.required
+      ])],
+      document:['',Validators.compose([
+        Validators.minLength(14),
+        Validators.maxLength(14),
+        CustomValidator.isCpf(),
+        Validators.required
+      ])],
+      email:['',Validators.compose([
+        Validators.minLength(5),
+        Validators.maxLength(50),
+        CustomValidator.EmailValidator,
+        Validators.required
+      ])],
+      password:['',Validators.compose([
+        Validators.minLength(5),
+        Validators.maxLength(20),
+        Validators.required
+      ])]
+    })
+  }
 
   ngOnInit() {
+  }
+  submit(){
+    this.busy = true;
+    this.service.create(this.form.value).subscribe(
+      (data : any)=> {
+        this.busy = false,
+        this.toast.success(data.message, 'Bem-vindo!');
+        this.router.navigate(['/login'])
+      },
+      (err)=>{
+        console.log(err);
+        this.busy = false;
+      }
+    )
   }
 
 }
