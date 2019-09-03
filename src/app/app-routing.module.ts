@@ -7,6 +7,7 @@ import { FramePageComponent } from './master/frame.page';
 import { ProductsPageComponent } from './pages/store/products-page/products-page.component';
 import { CartPageComponent } from './pages/store/cart-page/cart-page.component';
 import { PetsPageComponent } from './pages/account/pets-page/pets-page.component';
+import { AuthService } from './services/auth.service';
 
 const routes: Routes = [
   {path: 'login',component: LoginPageComponent},
@@ -17,7 +18,7 @@ const routes: Routes = [
     component: FramePageComponent,
     children:[
       {path: '',component: ProductsPageComponent},
-      {path: 'cart', component: CartPageComponent}
+      {path: 'cart', component: CartPageComponent,canActivate: [AuthService]}
     ]
   },
   {
