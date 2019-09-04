@@ -14,9 +14,6 @@
             <li>
                 <a [routerLink]="['/account/pets']" routerLinkActive="uk-text-bold">Meus Pets</a>
             </li>
-            <li>
-                <a href="#">Consultas</a>
-            </li>
         </ul>
       </div>
       <div class="uk-navbar-right">
@@ -29,7 +26,7 @@
                   </a>
               </li>
               <li>
-                  <a href="">
+                  <a [routerLink]="['/account']">
                       <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span>
                       {{user?.name}}
                   </a>
