@@ -18,7 +18,7 @@ export class ProductCardComponent implements OnInit {
   ngOnInit() {
   }
   addToCart(){
-    const cartItem = new CartItem(this.product._id,this.product.title,'1',this.product.price,this.product.images[0]);
+    const cartItem = new CartItem(this.product._id,this.product.title,1,this.product.price,this.product.images[0]);
     CartUtil.add(cartItem);
     this.toast.success(`${this.product.title} adicionado ao carrinho`,'Produto adicionado');
   }

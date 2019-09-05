@@ -16,7 +16,6 @@ export class CartUtil{
     public static add(data: CartItem){
 
         let cart = this.get();
-        console.log(cart);
 
         cart.items.push(data);
 
