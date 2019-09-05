@@ -7,7 +7,7 @@
       <div class="uk-card-body">
           <h3 class="uk-card-title">{{product.price/100 | currency: 'R$ '}}</h3>
           <p style="height: 50px">{{product.title}}</p>
-          <button class="uk-button uk-button-default">
+          <button class="uk-button uk-button-default" (click)="addToCart()">
             <span class="uk-icon uk-margin-small-right" uk-icon="icon: cart"></span>
             Adicionar
           </button>

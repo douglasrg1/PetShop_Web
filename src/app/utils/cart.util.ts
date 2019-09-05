@@ -16,10 +16,11 @@ export class CartUtil{
     public static add(data: CartItem){
 
         let cart = this.get();
+        console.log(cart);
 
         cart.items.push(data);
 
-        localStorage.setItem('petshop.cart',JSON.stringify(data));
+        localStorage.setItem('petshop.cart',JSON.stringify(cart));
     }
     public static update(cart: Cart){
 
